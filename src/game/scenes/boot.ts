@@ -90,9 +90,9 @@ export function bootScene(k: KAPLAYCtx) {
       ]);
     });
 
-    // Handle tap/click to proceed
+    // Handle tap/click to proceed ke Hub
     k.onClick(() => {
-      k.go("boot"); // For now, stay on boot - will change to "title" later
+      k.go("hub");
     });
   });
 }

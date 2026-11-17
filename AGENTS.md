@@ -1,32 +1,31 @@
-# Pulau Kita — Master Context
+# Pulau Kita — Master Context (Arah Publik & Multi-Tenant)
 
 ## Apa ini
-Game pixel art 2D cozy-romantis + humor, hadiah untuk pacar, dimainkan berdua realtime.
+Game pixel art 2D cozy-romantis + humor dengan universe 3 lapisan:
+1. **Pulau Pribadi (Multi-tenant):** Tiap pasangan/pemain punya pulau sendiri (rumah, dekor, kebun, jurnal). Diundang lewat kode/link (maks 2-4 anggota).
+2. **Plaza Publik:** Hub bersama (Kedai Bakso, papan pengumuman, Tugu Pasangan Pendiri "Ay & Fauzan"). Realtime max 20 pemain/instance, komunikasi HANYA lewat Emote & Toot (tanpa chat bebas).
+3. **Kunjungan:** Orang bisa bertamu ke pulau lain (read-only/interaksi terbatas, salam Toot di buku tamu).
+
 Stack: Next.js (App Router, TypeScript), Kaplay.js, Supabase (Auth, Realtime, Postgres, Storage), PWA, Vercel.
 
-## Aturan keras
-1. TIDAK ADA asset eksternal. Semua sprite/tile/ikon digenerate dari kode (grid string -> canvas -> data URL).
-   Semua audio dibuat via WebAudio/ZzFX. Font: bawaan Kaplay atau font pixel via next/font (Google).
-2. Target utama: iPad Safari landscape. Touch-first. Area sentuh besar (min 44px efektif).
-3. Resolusi virtual 320x240, letterbox, skala bulat, crisp (tanpa smoothing). Pixel-perfect.
-4. Kaplay HARUS di-mount di client saja (dynamic import, ssr:false). Cegah double-init karena React StrictMode
-   dan lakukan cleanup saat unmount.
-5. Sebelum menulis kode Kaplay, cek dokumentasi terbaru di kaplayjs.com. Jangan menebak API.
-6. Audio hanya mulai setelah gestur pengguna pertama (aturan iOS) -> layar title "Ketuk untuk mulai".
-7. Realtime: kirim posisi throttled ~10 Hz, terima dengan interpolasi. Event lain (emote, toot, puzzle) idempoten.
-8. Progres disimpan di Supabase, BUKAN hanya localStorage (Safari bisa menghapus data lokal).
-9. Sign-up publik DIMATIKAN. Hanya 2 akun. Semua tabel dilindungi RLS per couple_id.
-10. Konten personal (memori, surat) ada di src/game/content/ dan repo harus PRIVATE.
-11. Gift session pertama harus bisa solo; puzzle co-op punya fallback "Batu Penolong".
-12. Gaya: palet hangat (peach, krem, sage, biru langit), nuansa lo-fi. Humor lembut, momen inti (surat/memori) serius dan manis.
-13. Bahasa UI & dialog: Bahasa Indonesia santai. Panggilan sayang: "Ay".
-14. Kode kecil, modular, bertipe. Tiap sistem di file sendiri. Hindari god-file.
+## Aturan Keras
+1. **TIDAK ADA asset eksternal.** Semua sprite/tile/ikon digenerate dari kode (grid string -> canvas -> data URL). Semua audio via WebAudio/ZzFX.
+2. **PRIVASI KONTEN PRIBADI:** Kenangan, foto, dan surat personal TIDAK BOLEH di-hardcode di file JS bundle (`content/*.ts`). Semua kenangan disimpan di database `island_memories` dan dilindungi Row Level Security (RLS) per `island_id`.
+3. **Target utama:** iPad Safari landscape. Touch-first. Area sentuh besar (min 44px efektif).
+4. **Resolusi virtual 320x240**, letterbox, skala bulat, crisp (tanpa smoothing). Pixel-perfect.
+5. **Kaplay HARUS di-mount di client saja** (dynamic import, ssr:false). Cegah double-init StrictMode dan cleanup saat unmount.
+6. **Audio hanya mulai setelah gestur pengguna pertama** (layar title "Ketuk untuk mulai").
+7. **Auth:** Support Google OAuth (permanen), Guest Login (Supabase Anonymous Auth), dan Magic Link/OTP cadangan iOS PWA.
+8. **Ekonomi Pentol:** Perubahan Pentol melalui fungsi RPC Postgres (`add_pentol`), anti-cheat & rate limited.
+9. **Karakter & Lore:** Karakter Fauzan & Ay adalah Pasangan Pendiri Dunia (ada tugu & Kedai Bakso di Plaza). Pemain umum mendapatkan pulau starter dengan "Kenangan Builder".
+10. **Gaya:** Palet hangat (peach, krem, sage, biru langit), nuansa lo-fi. Humor lembut (Toot), momen kenangan serius dan manis.
+11. **Bahasa UI & Dialog:** Bahasa Indonesia santai. Panggilan sayang default: "Ay".
+12. **Kode kecil, modular, bertipe.** Tiap sistem di file sendiri. Hindari god-file.
 
-## Cara kerja
-- Kerjakan satu phase per sesi sesuai walkthrough.
-- Akhiri tiap phase dengan: ringkasan perubahan, cara menjalankan, dan cek acceptance criteria.
-- Jangan menambah fitur di luar phase yang sedang dikerjakan.
-- Bila ada keputusan ambigu, pilih opsi paling sederhana dan catat di NOTES.md.
+## Urutan Rilis
+1. **Tahap 1 (Sekarang):** Skema multi-tenant (`islands`, `island_members`, `island_memories`), Google OAuth + Guest login, pulau personal Fauzan & Ay selesai sampai Phase 5 (Hadiah pacar aman!).
+2. **Tahap 2 (Beta Tertutup):** Share link kunjungan pulau untuk teman/kerabat.
+3. **Tahap 3 (Publik):** Buka Plaza Publik bersama (Kedai Bakso & Tugu Pendiri) + Kenangan Builder untuk semua pengguna.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
