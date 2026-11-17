@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <rect width="192" height="192" fill="#fce4d6"/>
+  <rect x="19" y="19" width="154" height="154" rx="19" fill="#f4a68e"/>
+  <rect x="29" y="29" width="134" height="134" rx="15" fill="#fff5eb"/>
+  <rect x="86" y="67" width="19" height="67" fill="#8b6914"/>
+  <ellipse cx="67" cy="61" rx="29" ry="15" fill="#6b8e5a" transform="rotate(-20 67 61)"/>
+  <ellipse cx="125" cy="61" rx="29" ry="15" fill="#7da06a" transform="rotate(20 125 61)"/>
+  <ellipse cx="96" cy="54" rx="23" ry="15" fill="#8db87a"/>
+  <ellipse cx="96" cy="138" rx="58" ry="19" fill="#c8d8b9"/>
+  <rect x="29" y="144" width="134" height="23" rx="6" fill="#87ceeb" opacity="0.6"/>
+  <text x="96" y="115" text-anchor="middle" font-size="23" fill="#e06060">♥</text>
+</svg>
+
